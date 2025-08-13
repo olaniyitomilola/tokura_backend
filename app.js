@@ -4,7 +4,8 @@ const cors = require('cors');
 const productRoutes = require('./routes/productRoutes');
 const uploadRoutes = require("./routes/uploadRoutes");
 const productLengthRoutes = require('./routes/productLengthRoutes');
-const vistorRoutes = require('./routes/visitorRoutes')
+const vistorRoutes = require('./routes/visitorRoutes');
+const checkoutRoutes = require('./routes/checkoutRoute');
 
 
 const app = express();
@@ -19,6 +20,7 @@ app.use("/api/images", uploadRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/products', productLengthRoutes);
 app.use('/api/vis', vistorRoutes )
+app.use('/api/checkout', checkoutRoutes);
 
 
 app.get('/', (req, res) => res.send('Store API is running'));
