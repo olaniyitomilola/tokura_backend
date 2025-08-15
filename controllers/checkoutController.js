@@ -8,22 +8,26 @@ const createCheckoutSession = async (req, res) => {
   }
 
   try {
-    const lineItems = items.map(item => ({
-      price_data: {
-        currency: currency.toLowerCase(),
-        product_data: {
-          name: item.name,
-          images: item.image ? [item.image] : [],
-          description: item.size ? `Size: ${item.size}` : undefined, // optional
-          metadata: {
-            size: item.size || '',
-            productId: item.id || ''
-          }
-        },
-        unit_amount: Math.round(item.price * 100), // Convert to cents
+    const lineItems = items.map(item => {
+  let imageUrl = item.image ? encodeURI(item.image) : undefined;
+
+  return {
+    price_data: {
+      currency: currency.toLowerCase(),
+      product_data: {
+        name: item.name,
+        images: imageUrl ? [imageUrl] : [],
+        description: item.size ? `Size: ${item.size}` : undefined,
+        metadata: {
+          size: item.size || '',
+          productId: item.id || ''
+        }
       },
-      quantity: item.quantity,
-    }));
+      unit_amount: Math.round(item.price * 100), // Convert to cents
+    },
+    quantity: item.quantity,
+  };
+});
 
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
@@ -31,7 +35,7 @@ const createCheckoutSession = async (req, res) => {
       line_items: lineItems,
       mode: 'payment',
 
-      return_url: `${process.env.PUBLIC_URL}/return?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${process.env.PUBLIC_URL}return?session_id={CHECKOUT_SESSION_ID}`,
 
       customer_creation: 'if_required',
       phone_number_collection: { enabled: true },
@@ -48,4 +52,18 @@ const createCheckoutSession = async (req, res) => {
   }
 };
 
-module.exports = { createCheckoutSession };
+const getCheckoutSession = async (req, res) => {
+  const { session_id } = req.query;
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+    res.json({
+      status: session.status,
+      customer_email: session.customer_details?.email,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+module.exports = { createCheckoutSession, getCheckoutSession };

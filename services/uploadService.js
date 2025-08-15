@@ -36,7 +36,7 @@ const listObjects = async () => {
     const { Contents } = await s3.send(command);
     if (!Contents) return [];
 
-    return Contents.map(obj => `${process.env.PUBLIC_URL}/${obj.Key}`);
+    return Contents.map(obj => `${process.env.PUBLIC_S3_URL}/${obj.Key}`);
   } catch (err) {
     console.error("Failed to list public URLs:", err);
     return [];
@@ -60,7 +60,7 @@ const uploadMultipleImages = async (files) => {
       });
 
       await s3.send(command);
-      uploadedUrls.push(`${process.env.PUBLIC_URL}/${key}`);
+      uploadedUrls.push(`${process.env.PUBLIC_S3_URL}/${key}`);
     } catch (error) {
       console.error("Failed to upload:", file.originalname, error.message);
     } finally {
@@ -75,7 +75,22 @@ const uploadMultipleImages = async (files) => {
   return uploadedUrls;
 };
 
+const deleteImage = async (key) => {
+  try {
+    const command = new DeleteObjectCommand({
+      Bucket: process.env.R2_BUCKET_NAME,
+      Key: key,  // key is the path inside the bucket like 'uploads/12345-image.jpg'
+    });
+
+    await s3.send(command);
+    return true;
+  } catch (error) {
+    console.error("Failed to delete image:", key, error.message);
+    throw new Error("Failed to delete image");
+  }
+};
+
 module.exports = {
   uploadImage,
-  listObjects, uploadMultipleImages
+  listObjects, uploadMultipleImages, deleteImage
 };
