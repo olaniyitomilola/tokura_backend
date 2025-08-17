@@ -2,6 +2,7 @@ const { stripe } = require('../services/StripeService');
 
 const createCheckoutSession = async (req, res) => {
   const { items, currency } = req.body;
+  console.log("Creating checkout session with items:", items);
 
   if (!Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ error: 'Invalid input. Expected array of items.' });
@@ -20,7 +21,8 @@ const createCheckoutSession = async (req, res) => {
         description: item.size ? `Size: ${item.size}` : undefined,
         metadata: {
           size: item.size || '',
-          productId: item.id || ''
+          productId: item.id || '',
+          image: imageUrl || ''
         }
       },
       unit_amount: Math.round(item.price * 100), // Convert to cents
@@ -41,7 +43,7 @@ const createCheckoutSession = async (req, res) => {
       phone_number_collection: { enabled: true },
       billing_address_collection: 'required',
       shipping_address_collection: {
-        allowed_countries: ['US', 'CA', 'GB', 'AU', 'FR', 'DE', 'IN', 'NG']
+        allowed_countries: ['US', 'CA', 'GB', 'AU', 'FR', 'DE', 'NG']
       }
     });
 

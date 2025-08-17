@@ -1,5 +1,3 @@
-// templates/orderEmail.js
-
 module.exports = function orderEmailTemplate({
   customerName,
   orderId,
@@ -7,10 +5,9 @@ module.exports = function orderEmailTemplate({
   items,
   totalAmount,
   shippingAddress,
-  currency = 'USD', // default
+  currency = 'USD',
   year = new Date().getFullYear(),
 }) {
-  // Map currency codes to symbols
   const currencySymbols = {
     USD: '$',
     GBP: '£',
@@ -20,17 +17,20 @@ module.exports = function orderEmailTemplate({
   const symbol = currencySymbols[currency.toUpperCase()] || currency;
 
   const itemsHtml = items.map(item => `
-    <tr>
-      <td style="padding:8px 0; border-bottom:1px solid #eee;">
+  <tr>
+    <td style="padding:8px 0; border-bottom:1px solid #eee; display:flex; align-items:center;">
+      ${item.image ? `<img src="${item.image}" alt="${item.name}" style="width:50px; height:50px; object-fit:cover; margin-right:10px; border-radius:4px;" />` : ''}
+      <div>
         <strong>${item.name}</strong>  
         ${item.size ? `(Size: ${item.size})` : ''}  
         × ${item.quantity}
-      </td>
-      <td style="padding:8px 0; text-align:right; border-bottom:1px solid #eee;">
-        ${symbol}${item.price}
-      </td>
-    </tr>
-  `).join('');
+      </div>
+    </td>
+    <td style="padding:8px 0; text-align:right; border-bottom:1px solid #eee;">
+      ${symbol}${item.price}
+    </td>
+  </tr>
+`).join('');
 
   return `
   <!DOCTYPE html>
@@ -44,11 +44,13 @@ module.exports = function orderEmailTemplate({
       <tr>
         <td align="center">
           <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color:#ffffff; border-radius:8px; overflow:hidden;">
-            
-            <!-- Header -->
+
+            <!-- Header with Logo -->
             <tr>
-              <td style="background-color:#000000; padding:20px; text-align:center;">
-                <h1 style="margin:0; color:#ffffff; font-size:24px;">Tokura Luxury</h1>
+              <td style="background-color:#fff; padding:20px; text-align:center;">
+                <img src="https://michaelbaseet.com/uploads/1755376448625-logo.png" 
+                     alt="Tokura Luxury" 
+                     style="max-width:200px; height:auto;" />
               </td>
             </tr>
 
@@ -89,12 +91,13 @@ module.exports = function orderEmailTemplate({
                 <h3 style="border-bottom:1px solid #ddd; padding-bottom:8px;">Delivery Information</h3>
                 <p style="margin:0; font-size:16px; line-height:1.5;">
                   ${shippingAddress.name}<br />
-                  ${shippingAddress.street}<br />
+                  ${shippingAddress.line1}<br />
+                  ${shippingAddress.line2 ? shippingAddress.line2 + '<br />' : ''}
                   ${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.postalCode}<br />
                   ${shippingAddress.country}<br />
                   Phone: ${shippingAddress.phone}
                 </p>
-              </td>
+              </td> 
             </tr>
 
             <!-- Footer -->
