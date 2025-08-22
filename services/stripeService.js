@@ -7,7 +7,7 @@ const { generateOrderId } = require('./orderIdService');
 
 
 
-const stripe = new Stripe(process.env.STRIPE_TEST_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Currency symbols map
 const currencySymbols = {

@@ -26,17 +26,20 @@ module.exports = function orderDeliveredEmailTemplate({
             </tr>
 
             <!-- Greeting -->
-            <tr>
-              <td style="padding:20px;">
-                <h2 style="margin-top:0;">Hi ${firstName},</h2>
-                <p style="font-size:16px; line-height:1.5;">
-                  Your order <strong>#${orderId}</strong> has been delivered.
-                </p>
-                <p style="font-size:16px; line-height:1.5;">
-                  We hope you enjoy your purchase! Thank you for choosing <strong>Tokura Luxury</strong>.
-                </p>
-              </td>
-            </tr>
+<tr>
+  <td style="padding:20px;">
+    <h2 style="margin-top:0;">Hey ${firstName},</h2>
+    <p style="font-size:16px; line-height:1.5;">
+      Your glam package <strong>#${orderId}</strong> just made it home to you!
+    </p>
+    <p style="font-size:16px; line-height:1.5;">
+      We can’t wait for you to unwrap it, try it on, and step into that Tokura Luxury glow. 
+    </p>
+    <p style="font-size:16px; line-height:1.5;">
+      Thank you for letting us be part of your style story, because luxury isn’t just worn, it’s lived.
+    </p>
+  </td>
+</tr>
 
             <!-- Footer -->
             <tr>
