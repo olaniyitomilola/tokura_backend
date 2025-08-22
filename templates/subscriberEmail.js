@@ -15,7 +15,7 @@ module.exports = function subscriberEmailTemplate({ firstName, year = new Date()
             <!-- Header with Logo -->
             <tr>
               <td style="background-color:#fff; padding:20px; text-align:center;">
-                <img src="https://michaelbaseet.com/uploads/1755376448625-logo.png" 
+                <img src="https://michaelbaseet.com/uploads/1755872893851-tokura.jpg" 
                      alt="Tokura Luxury" 
                      style="max-width:200px; height:auto;" />
               </td>
