@@ -9,7 +9,7 @@ const getAll = async (req, res) => {
     res.json(products);
   } catch (error) {
     console.log(error)
-      logger.error('Error fetching products:', error);
+      logger.error(error, 'Error fetching products:');
     res.status(500).json({ error: 'Server error' });
   }
 };
@@ -21,7 +21,7 @@ const getOne = async (req, res) => {
     res.json(product);
   } catch (error) {
     console.log(error)
-      logger.error('Error fetching product:', error);
+      logger.error( error, 'Error fetching product:');
     res.status(500).json({ error: 'Server error' });
   }
 };
@@ -32,7 +32,7 @@ const create = async (req, res) => {
     res.status(201).json(product);
   } catch (error) {
     console.log(error)
-      logger.error('Error creating product:', error);
+      logger.error(error, 'Error creating product:');
     res.status(500).json({ error: 'Server error' });
   }
 };
@@ -50,7 +50,7 @@ const addImagesByUrl = async (req, res) => {
     res.status(201).json({success: true, message: "Image URLs added successfully", images:image });
   } catch (error) {
     console.error(error);
-    logger.error('Error adding image URLs:', error);
+    logger.error( error, 'Error adding image URLs:');
     res.status(500).json({ error: "Server error while adding image URLs" });
   }
 };
@@ -66,7 +66,7 @@ const deleteImage = async (req, res) => {
     res.json({success: true, message: 'Image deleted successfully', deleted });
   } catch (err) {
     console.error(err);
-    logger.error('Error deleting image:', err);
+    logger.error( err, 'Error deleting image:');
     res.status(500).json({ error: 'Server error' });
   }
 };
@@ -84,6 +84,7 @@ const updateProduct = async (req, res) => {
     res.status(200).json(updated);
   } catch (err) {
     console.error(err);
+    logger.error( err, 'Error updating product:');
     res.status(500).json({ error: 'Server error' });
   }
 };

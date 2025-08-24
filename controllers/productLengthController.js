@@ -1,4 +1,5 @@
 const service = require('../services/productLengthService');
+const { logger } = require('../services/logger');
 
 const getLengths = async (req, res) => {
   try {
@@ -7,6 +8,7 @@ const getLengths = async (req, res) => {
     res.json(lengths);
   } catch (error) {
     console.error(error);
+      logger.error(error, 'Error fetching product lengths:');
     res.status(500).json({ error: 'Server error' });
   }
 };
@@ -21,10 +23,11 @@ const createLengths = async (req, res) => {
     }
 
     const created = await service.addProductLengths(productId, lengths);
-    console.log(created)
+    //console.log(created)
     res.status(201).json(created);
   } catch (error) {
     console.error(error);
+      logger.error(error, 'Error creating product lengths:');
     res.status(500).json({ error: 'Server error' });
   }
 };
@@ -39,6 +42,7 @@ const updateLength = async (req, res) => {
     res.json(updated);
   } catch (error) {
     console.error(error);
+      logger.error(error, 'Error updating product length:');
     res.status(500).json({ error: 'Server error' });
   }
 };
@@ -52,6 +56,7 @@ const deleteLength = async (req, res) => {
     res.json({ message: 'Deleted successfully', deleted });
   } catch (error) {
     console.error(error);
+      logger.error(error, 'Error deleting product length:');
     res.status(500).json({ error: 'Server error' });
   }
 };

@@ -19,7 +19,8 @@ const sendOrderStatusEmail = async ({
   orderId,
   status,
   trackingNumber,
-  trackingUrl
+  trackingUrl,
+  shippingAddress
 }) => {
   let subject = '';
   let html = '';
@@ -30,7 +31,8 @@ const sendOrderStatusEmail = async ({
       firstName,
       orderId,
       trackingNumber,
-      trackingUrl
+      trackingUrl,
+      shippingAddress
     });
   } else if (status === 'delivered') {
     subject = `Your order #${orderId} has been delivered!`;

@@ -25,7 +25,7 @@ const addLengths = async (productId, lengths) => {
 
 
 const updateLength = async (id, { size, price, stock }) => {
-    console.log(id)
+    //console.log(id)
   const res = await db.query(
     `UPDATE product_lengths
      SET size = $1, price = $2, stock = $3

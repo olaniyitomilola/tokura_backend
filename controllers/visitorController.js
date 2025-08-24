@@ -1,5 +1,6 @@
 const { getAllVisitors } = require('../models/visitorModel');
 const visitorService = require('../services/visitorService');
+const {logger} = require('../services/logger');
 
 const handleTrackVisit = async (req, res) => {
   try {
@@ -12,6 +13,7 @@ const handleTrackVisit = async (req, res) => {
     res.status(201).json({ message: "Visit tracked" });
   } catch (error) {
     console.error("Error tracking visit:", error);
+      logger.error(error, 'Error tracking visit:');
     res.status(500).json({ error: "Server error" });
   }
 };
@@ -51,6 +53,7 @@ const getVisitorStats = async (req, res) => {
     });
   } catch (error) {
     console.error("Error getting visitor stats:", error);
+      logger.error(error, 'Error getting visitor stats:');
     res.status(500).json({ error: 'Server error' });
   }
 };

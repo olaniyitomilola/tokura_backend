@@ -5,6 +5,7 @@ const {
   updateOrderStatus
 } = require('../models/ordersModel');
 const { sendOrderStatusEmail } = require('../services/orderMailer');
+const {logger} = require('../services/logger');
 
 
 
@@ -36,7 +37,9 @@ const getOrder = async (req, res) => {
       tracking_url: order.tracking_url || null,
     });
   } catch (err) {
+
     console.error("❌ Error fetching order:", err);
+    logger.error( err, 'Error fetching order:');
     res.status(500).json({ error: "Server error while fetching order" });
   }
 };
@@ -70,6 +73,7 @@ const getOrderAdmin = async (req, res) => {
     });
   } catch (err) {
     console.error("❌ Error fetching order (admin):", err);
+    logger.error( err, 'Error fetching order (admin):');
     res.status(500).json({ error: "Server error while fetching order" });
   }
 };
@@ -99,6 +103,7 @@ const listOrders = async (req, res) => {
     res.json(formatted);
   } catch (err) {
     console.error("❌ Error fetching orders:", err);
+    logger.error( err, 'Error fetching orders:');
     res.status(500).json({ error: "Server error while fetching orders" });
   }
 };
@@ -122,7 +127,8 @@ const changeOrderStatus = async (req, res) => {
       email, firstName: name,
       orderId, status: updatedOrder.status,
       trackingNumber: updatedOrder.tracking_number,
-      trackingUrl: updatedOrder.tracking_url,})
+      trackingUrl: updatedOrder.tracking_url,
+      shippingAddress: updatedOrder.shipping_address? updateOrderStatus.shipping_address : updateOrderStatus.billing_address})
 
     return res.json({
       orderId: updatedOrder.order_id,
@@ -133,6 +139,7 @@ const changeOrderStatus = async (req, res) => {
     });
   } catch (err) {
     console.error("❌ Error updating order:", err);
+    logger.error( err, 'Error updating order:');
     res.status(500).json({ error: "Server error while updating order" });
   }
 };

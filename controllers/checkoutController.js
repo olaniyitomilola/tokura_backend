@@ -1,8 +1,10 @@
 const { stripe } = require('../services/StripeService');
+const {logger} = require('../services/logger');
 
 const createCheckoutSession = async (req, res) => {
   const { items, currency } = req.body;
   console.log("Creating checkout session with items:", items);
+  logger.info(`Creating checkout session with ${items.length} items in ${currency}`);
 
   if (!Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ error: 'Invalid input. Expected array of items.' });
@@ -10,26 +12,26 @@ const createCheckoutSession = async (req, res) => {
 
   try {
     const lineItems = items.map(item => {
-  let imageUrl = item.image ? encodeURI(item.image) : undefined;
+      let imageUrl = item.image ? encodeURI(item.image) : undefined;
 
-  return {
-    price_data: {
-      currency: currency.toLowerCase(),
-      product_data: {
-        name: item.name,
-        images: imageUrl ? [imageUrl] : [],
-        description: item.size ? `Size: ${item.size}` : undefined,
-        metadata: {
-          size: item.size || '',
-          productId: item.id || '',
-          image: imageUrl || ''
-        }
-      },
-      unit_amount: Math.round(item.price * 100), // Convert to cents
-    },
-    quantity: item.quantity,
-  };
-});
+      return {
+        price_data: {
+          currency: currency.toLowerCase(),
+          product_data: {
+            name: item.name,
+            images: imageUrl ? [imageUrl] : [],
+            description: item.size ? `Size: ${item.size}` : undefined,
+            metadata: {
+              size: item.size || '',
+              productId: item.id || '',
+              image: imageUrl || ''
+            }
+          },
+          unit_amount: Math.round(item.price * 100), // Convert to cents
+        },
+        quantity: item.quantity,
+      };
+    });
 
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
@@ -50,6 +52,7 @@ const createCheckoutSession = async (req, res) => {
     res.json({ clientSecret: session.client_secret });
   } catch (error) {
     console.error('Error creating Stripe Checkout session:', error);
+      logger.error(error, 'Error creating Stripe Checkout session:');
     res.status(500).json({ error: 'Server error while creating checkout session' });
   }
 };
@@ -64,6 +67,8 @@ const getCheckoutSession = async (req, res) => {
       customer_email: session.customer_details?.email,
     });
   } catch (err) {
+    console.error('Error retrieving checkout session:', err);
+    logger.error(err, 'Error retrieving checkout session:');
     res.status(500).json({ error: err.message });
   }
 };

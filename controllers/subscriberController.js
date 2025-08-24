@@ -5,6 +5,7 @@ const {
   updateSubscriberStatus
 } = require('../models/subscribers');
 const { sendMail } = require('../services/nodemailerService');
+const {logger} = require('../services/logger');
 
 
 const subscriberEmailTemplate = require('../templates/subscriberEmail');
@@ -39,6 +40,7 @@ const addSubscriber = async (req, res) => {
     res.status(201).json({ firstName, email, status: true });
   } catch (err) {
     console.error('Error adding subscriber:', err);
+    logger.error(err, 'Error adding subscriber:');
     res.status(500).json({ error: 'Server error' });
   }
 };
@@ -49,8 +51,9 @@ const listSubscribers = async (req, res) => {
     res.json(subscribers);
   } catch (err) {
     console.error('Error fetching subscribers:', err);
+    logger.error(err, 'Error fetching subscribers:');
     res.status(500).json({ error: 'Server error' });
-  }
+  } 
 };
 
 const updateStatus = async (req, res) => {
@@ -67,6 +70,7 @@ const updateStatus = async (req, res) => {
     res.json(subscriber);
   } catch (err) {
     console.error('Error updating subscriber:', err);
+    logger.error(err, 'Error updating subscriber:');
     res.status(500).json({ error: 'Server error' });
   }
 };

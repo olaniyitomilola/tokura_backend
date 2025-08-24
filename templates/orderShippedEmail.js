@@ -3,6 +3,7 @@ module.exports = function orderShippedEmailTemplate({
   orderId,
   trackingNumber,
   trackingUrl,
+  shippingAddress,
   year = new Date().getFullYear()
 }) {
   return `<!DOCTYPE html>
