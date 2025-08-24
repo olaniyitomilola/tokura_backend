@@ -31,8 +31,9 @@ app.use('/api/checkout', checkoutRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/subscribers', subscriberRoutes);
 
-app.get('/', (req, res) => res.send('Store API is running'));
+app.get('/', (req, res) => res.send('Store API is running now with logger'));
 app.listen(PORT, async () => {
 
   console.log(`Server running on http://localhost:${PORT}`);
+  
 });
