@@ -1,0 +1,98 @@
+function enquiryTemplate({ name, email, message }) {
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>New Enquiry</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f2f2f2; font-family:Arial, sans-serif; color:#000;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="padding:20px 0; background-color:#f2f2f2;">
+    <tr>
+      <td align="center">
+        <table width="600" border="0" cellspacing="0" cellpadding="0" style="background-color:#ffffff; border-radius:8px; overflow:hidden;">
+
+          <!-- Header -->
+          <tr>
+            <td>
+              <h1 style="
+                margin:0;
+                padding:25px 20px;
+                text-align:center;
+                font-size:28px;
+                font-weight:bold;
+                letter-spacing:2px;
+                background:#000;
+                color:#fff;
+              ">
+                Olan Photography
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:20px;">
+              <p style="font-size:16px; line-height:1.5; margin-bottom:15px;">
+                You have received a new enquiry from your website.
+              </p>
+
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:8px 0; font-weight:bold; width:150px;">Name:</td>
+                  <td style="padding:8px 0;">${name}</td>
+                </tr>
+
+                <tr>
+                  <td style="padding:8px 0; font-weight:bold;">Email:</td>
+                  <td style="padding:8px 0;">
+                    <a href="mailto:${email}" style="color:#000; text-decoration:underline;">${email}</a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:8px 0; font-weight:bold; vertical-align:top;">Message:</td>
+                  <td style="padding:8px 0;">
+                    <p style="
+                      font-size:15px;
+                      line-height:1.7;
+                      margin:0;
+                      text-align:justify;
+                      white-space:pre-wrap;
+                      color:#000;
+                    ">
+                      ${message}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="
+              padding:20px;
+              text-align:center;
+              background:#000;
+              color:#fff;
+            ">
+              <p style="margin:0; font-size:16px;">
+                You may reply directly to the client at  
+                <a href="mailto:${email}" style="color:#fff; font-weight:bold; text-decoration:underline;">
+                  ${email}
+                </a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `;
+}
+
+module.exports = enquiryTemplate;

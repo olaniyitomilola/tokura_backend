@@ -6,6 +6,7 @@ const uploadRoutes = require("./routes/uploadRoutes");
 const stripeRoute = require("./routes/stripeRoute");
 const orderRoutes = require('./routes/orderRoutes');
 const subscriberRoutes = require('./routes/subscriberRoutes');
+const enquiryRoute = require('./routes/enquiryRoute');
 
 const productLengthRoutes = require('./routes/productLengthRoutes');
 const vistorRoutes = require('./routes/visitorRoutes');
@@ -30,6 +31,7 @@ app.use('/api/vis', vistorRoutes)
 app.use('/api/checkout', checkoutRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/subscribers', subscriberRoutes);
+app.use('/api/enquiry', enquiryRoute);
 
 app.get('/', (req, res) => res.send('Store API is running again ipv4 and str'));
 app.listen(PORT, async () => {
